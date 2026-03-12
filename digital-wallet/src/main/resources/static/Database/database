@@ -1,0 +1,19 @@
+CREATE SCHEMA IF NOT EXISTS "public";
+
+CREATE TABLE IF NOT exists users (
+    id UUID PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    balance numeric(19, 2) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS transaction (
+    transaction_id UUID PRIMARY KEY,
+    transaction_type VARCHAR(20) NOT NULL,
+    amount NUMERIC(19,2) NOT NULL,
+    source_user_id UUID NOT NULL,
+    destination_user_id UUID,
+    created_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (source_user_id) REFERENCES users(id),
+    FOREIGN KEY (destination_user_id) REFERENCES users(id)
+);
